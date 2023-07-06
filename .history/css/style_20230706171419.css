@@ -1,0 +1,164 @@
+body {
+    background: #f4f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    /* background: rgb(23, 37, 43); */
+    background-color: #ffff;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
+
+.logo-brand,
+.profile-account {
+    text-decoration: none;
+    color: #2b2b2b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 30px 0px 30px;
+    padding: 8px;
+}
+
+.logo-brand {
+    font-size: 20px;
+    font-weight: 800
+}
+
+
+
+.logo-brand span,
+.profile-account span {
+    margin: 0px 5px 0px 5px;
+}
+
+
+
+.user-account-edit {
+    width: 100%;
+    
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* column-gap: 80px; */
+    margin-top: 10px;
+
+}
+
+.user-profile,.user-edit-content  {
+
+    width: 100%;
+    height: 100vh;
+    background-color: #f4f4f4;
+    
+    display: flex;
+  
+    align-items: start;
+    
+}
+
+.profile-display{
+    width: 400px;
+    height: 450px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin: 0px 30px 0px 30px;
+   
+    
+}
+
+.profile-display-img{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.profile-display-name{
+    width: 100%;
+    
+    
+    line-height: 1px;
+    margin: 0px 20px 0px 20px;
+
+    padding: 10px;
+}
+
+
+
+.profile-display-name p{
+    color: #aaa0a0;
+}
+
+.profile-display-bio{
+
+  
+    margin:0px 20px 0 20px;
+   
+
+    padding: 10px;
+}
+
+.profile-display-bio textarea{
+    width: 98%;
+    border: none;
+}
+
+
+.edit-form{
+    width: 70%;
+    height: inherit;
+    justify-self: start;
+    /* background-color: #ffff; */
+}
+
+.user-form-name,.user-authanticate,.user-selection{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2em;
+    /* background-color: #2b2b2b; */
+}
+
+.user-form-name .form-control,.user-authanticate .form-control{
+    width: 100%;
+}
+
+.form-control{
+    border: 1px solid #bcb5b5;
+    
+
+    padding: 10px ;
+    margin-bottom: 10px;
+    margin-top: 4px;
+}
+
+
+
+.userprofileusername input{
+    width: 100%;
+}
+
+.user-bio textarea{
+    width: 100%;
+    height: 100px;
+}
+
+
+.user-img{
+    width: 100%;
+    height: 300px;
+    border: 1px solid #aaa0a0;
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}

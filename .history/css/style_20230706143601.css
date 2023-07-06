@@ -1,0 +1,83 @@
+body {
+    background: #f4f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    /* background: rgb(23, 37, 43); */
+    background-color: #ffff;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
+
+.logo-brand,
+.profile-account {
+    text-decoration: none;
+    color: #2b2b2b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 30px 0px 30px;
+    padding: 8px;
+}
+
+.logo-brand {
+    font-size: 20px;
+    font-weight: 800
+}
+
+
+
+.logo-brand span,
+.profile-account span {
+    margin: 0px 5px 0px 5px;
+}
+
+
+
+.user-account-edit {
+    width: 100vw;
+    
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* column-gap: 80px; */
+    margin-top: 10px;
+
+}
+
+.user-profile,.user-edit-content  {
+
+    width: 100%;
+    height: 100vh;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    
+}
+
+.profile-display{
+    width: 400px;
+    height: 450px;
+    background-color: #ffffff;
+    margin: 0px 30px 0px 30px;
+
+}
+
+.profile-display-bio textarea{
+    width: 100%;
+}
+
+
+.edit-form{
+    width: 90%;
+    height: inherit;
+    /* background-color: #ffff; */
+}
