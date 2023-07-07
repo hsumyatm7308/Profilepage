@@ -1,52 +1,85 @@
 <?php
-session_start();
 
-ini_set('display_errors', false);
+ini_set('display_errors',false);
 
 $dbhost = 'localhost';
 $dbusername = 'root';
 $dbpass = '';
 $dbname = 'hmmdb';
 
+
 try {
+
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     echo "successful";
 
+
+
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
 }
 
-if (!isset($_SESSION['uploaded_file'])) {
-    $_SESSION['uploaded_file'] = ''; 
-}
+
+
+
+
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
     try {
-        $stmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
+
+
+        $stmt = $conn->prepare("SELECT firstname,lastname,username,bio FROM jamevectory");
+
         $stmt->execute();
+
+
         $row = $stmt->fetch();
+
+        // echo "<pre>" . print_r($row['firstname'], true) . "</pre>";
 
         echo $row['firstname'];
 
+
         if (isset($_POST['submit'])) {
+            // echo "<h1>Welcome </h1>";
+
+
             $uploaddir = 'assets/img/profile/';
-            $extension = pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION);
-            $filename = uniqid() . '.' . $extension;
+            $extention = pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION);
+            $filename = uniqid() . '.' . $extention;
             $uploadfile = $uploaddir . $filename;
 
+            // echo "<pre>" . print_r($filename, true) . "</pre>";
+
+
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
-                $_SESSION['uploaded_file'] = $uploadfile;
+                $uploadfile;
+            } else {
+                // echo "failded";
             }
+
+        }else{
+            
         }
 
+     
+        
+       
+
+
     } catch (Exception $e) {
+
         echo "Error Found : " . $e->getMessage();
     }
+
 }
 
-$uploadfile = $_SESSION['uploaded_file']; 
 
 ?>
 

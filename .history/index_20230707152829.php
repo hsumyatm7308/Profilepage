@@ -1,52 +1,36 @@
 <?php
-session_start();
-
-ini_set('display_errors', false);
-
-$dbhost = 'localhost';
-$dbusername = 'root';
-$dbpass = '';
-$dbname = 'hmmdb';
-
-try {
-    $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    echo "successful";
-
-} catch (Exception $e) {
-    echo "Error found : " . $e->getMessage();
-}
-
-if (!isset($_SESSION['uploaded_file'])) {
-    $_SESSION['uploaded_file'] = ''; 
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $stmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
-        $stmt->execute();
-        $row = $stmt->fetch();
+    if (isset($_POST['submit'])) {
+        echo "<h1>Welcome </h1>";
 
-        echo $row['firstname'];
 
-        if (isset($_POST['submit'])) {
-            $uploaddir = 'assets/img/profile/';
-            $extension = pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION);
-            $filename = uniqid() . '.' . $extension;
-            $uploadfile = $uploaddir . $filename;
+        $uploaddir = 'assets/img/profile/';
+        $extention = pathinfo($_FILES['profile']['name'],PATHINFO_EXTENSION);
+        $filename = uniqid().'.'.$extention;
+        $uploadfile = $uploaddir.$filename;
 
-            if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
-                $_SESSION['uploaded_file'] = $uploadfile;
-            }
+      
+        echo "<pre>".print_r($filename,true)."</pre>";
+
+
+        if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
+            echo "successfully";
+        } else {
+            echo "failded";
         }
 
-    } catch (Exception $e) {
-        echo "Error Found : " . $e->getMessage();
+
+
+
+
+
     }
+
+
+
 }
 
-$uploadfile = $_SESSION['uploaded_file']; 
 
 ?>
 
@@ -63,51 +47,41 @@ $uploadfile = $_SESSION['uploaded_file'];
     <header>
 
         <nav>
-          
-                <div>
-                    <a href="" class="logo-brand">
-                        <img src="./assets/img/mylogo.jpg" alt="" width="50px" style="border-radius: 50%;">
-                        <span>Jame Vectory</span>
-                    </a>
-                </div>
+            <div>
+                <a href="" class="logo-brand">
+                    <img src="./assets/img/mylogo.jpg" alt="" width="50px" style="border-radius: 50%;">
+                    <span>Jame Vectory</span>
+                </a>
+            </div>
 
-                <div>
-                    <a href="" class="profile-account">
-                        <span>My account</span>
-                        <img src="<?php echo $uploadfile ?>" alt="" width="30px" style="border-radius: 50%;">
-                    </a>
-                </div>
-            
+            <div>
+                <a href="" class="profile-account">
+                    <span>My account</span>
+                    <img src="./assets/img/profile/hmm.jpg" alt="" width="30px" style="border-radius: 50%;">
+                </a>
+            </div>
 
         </nav>
 
     </header>
     <section>
         <div class="user-account-edit">
-
             <div class="user-profile">
-                <div>
-                    <form action="index.php" method='post' enctype='multipart/formdata' class="profile-display">
-                        <div class="profile-display-img">
-
-                            <div class="img">
-                                <img src="<?php echo $uploadfile ?>" alt="" width="200px" style="border-radius: 50%;">
-                            </div>
+                <div class="profile-display">
+                    <div class="profile-display-img">
+                        <img src="<?php ?>" alt="" width="200px" style="border-radius: 50%;">
+                    </div>
 
 
-                        </div>
+                    <div class="profile-display-name">
+                        <h3 class="dispalyname"><span>Jame</span> <span> Vectory</span></h3>
+                        <p>jame230</p>
+                    </div>
 
-
-                        <div class="profile-display-name">
-                            <h3 class="dispalyname"><span><?= $row['firstname'] ?></span> <span> <?= $row['lastname'] ?></span></h3>
-                            <p><?= $row['username'] ?></p>
-                        </div>
-
-                        <div class="profile-display-bio">
-                            <textarea name="displaybio" rows="5" maxlength="150">Hello I'm a programmer. If you need me, I'm always ready.
+                    <div class="profile-display-bio">
+                        <textarea name="displaybio" rows="5" maxlength="150">Hello I'm a programmer. If you need me, I'm always ready.
                         </textarea>
-                        </div>
-                    </form>
+                    </div>
 
 
                 </div>
@@ -160,7 +134,7 @@ $uploadfile = $_SESSION['uploaded_file'];
                         <div class="user-selection">
                             <div class="user-img">
                                 <div class="img-item">
-                                    <img src="<?php echo $uploadfile ?>" alt="" width="150px">
+                                    <img src="<?php echo $uploadfile  ?>" alt="" width="150px">
 
 
                                 </div>
@@ -238,21 +212,3 @@ $uploadfile = $_SESSION['uploaded_file'];
 </body>
 
 </html>
-
-
-
-<!-- 
-
-CREATE TABLE IF NOT EXISTS jamevectory(
- id INT AUTO_INCREMENT PRIMARY KEY,
- firstname VARCHAR(255) NOT NULL,
-  lastname VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password INT NOT NULL,
-    bio VARCHAR(255),
-    pronouns VARCHAR(255), 
-    company VARCHAR(255)
-    
-    
-) -->

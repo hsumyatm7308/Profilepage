@@ -83,11 +83,10 @@ nav {
     border-bottom: 1px solid #f4f4f4;
 }
 
-.profile-display-img .img{
+.img{
     width: 200px;
     height: 200px;
-    border: 1px solid #cdc9c9;
-    border-radius: 50%;
+    border: 1px solid #f4f4f4;
 }
 
 .profile-display-name{

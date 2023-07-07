@@ -19,7 +19,7 @@ try {
 }
 
 if (!isset($_SESSION['uploaded_file'])) {
-    $_SESSION['uploaded_file'] = ''; 
+    $_SESSION['uploaded_file'] = ''; // Initialize the session variable to an empty value
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $uploadfile = $uploaddir . $filename;
 
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
-                $_SESSION['uploaded_file'] = $uploadfile;
+                $_SESSION['uploaded_file'] = $uploadfile; // Store the uploaded file path in the session variable
             }
         }
 
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$uploadfile = $_SESSION['uploaded_file']; 
+$uploadfile = $_SESSION['uploaded_file']; // Retrieve the uploaded file path from the session variable
 
 ?>
 

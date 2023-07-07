@@ -1,52 +1,85 @@
 <?php
-session_start();
 
-ini_set('display_errors', false);
 
 $dbhost = 'localhost';
 $dbusername = 'root';
 $dbpass = '';
 $dbname = 'hmmdb';
 
+
 try {
+
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     echo "successful";
 
+
+
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
 }
 
-if (!isset($_SESSION['uploaded_file'])) {
-    $_SESSION['uploaded_file'] = ''; 
-}
+
+
+
+
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
     try {
-        $stmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
+
+
+        $stmt = $conn->prepare("SELECT firstname,lastname,username,bio FROM jamevectory");
+
         $stmt->execute();
+
+
         $row = $stmt->fetch();
 
-        echo $row['firstname'];
+        echo "<pre>" . print_r($row['firstname'], true) . "</pre>";
+
 
         if (isset($_POST['submit'])) {
+            // echo "<h1>Welcome </h1>";
+
+
+
+
+
+
             $uploaddir = 'assets/img/profile/';
-            $extension = pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION);
-            $filename = uniqid() . '.' . $extension;
+            $extention = pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION);
+            $filename = uniqid() . '.' . $extention;
             $uploadfile = $uploaddir . $filename;
 
+
+            // echo "<pre>" . print_r($filename, true) . "</pre>";
+
+
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
-                $_SESSION['uploaded_file'] = $uploadfile;
+                // echo "successfully";
+            } else {
+                // echo "failded";
             }
+
+
+
+
+
+
         }
 
     } catch (Exception $e) {
+
         echo "Error Found : " . $e->getMessage();
     }
+
 }
 
-$uploadfile = $_SESSION['uploaded_file']; 
 
 ?>
 
@@ -63,7 +96,7 @@ $uploadfile = $_SESSION['uploaded_file'];
     <header>
 
         <nav>
-          
+            <form action="index.php" method="post" enctype="multipart/form-data">
                 <div>
                     <a href="" class="logo-brand">
                         <img src="./assets/img/mylogo.jpg" alt="" width="50px" style="border-radius: 50%;">
@@ -77,7 +110,7 @@ $uploadfile = $_SESSION['uploaded_file'];
                         <img src="<?php echo $uploadfile ?>" alt="" width="30px" style="border-radius: 50%;">
                     </a>
                 </div>
-            
+            </form>
 
         </nav>
 
@@ -99,8 +132,8 @@ $uploadfile = $_SESSION['uploaded_file'];
 
 
                         <div class="profile-display-name">
-                            <h3 class="dispalyname"><span><?= $row['firstname'] ?></span> <span> <?= $row['lastname'] ?></span></h3>
-                            <p><?= $row['username'] ?></p>
+                            <h3 class="dispalyname"><span>Jame</span> <span> Vectory</span></h3>
+                            <p>jame230</p>
                         </div>
 
                         <div class="profile-display-bio">

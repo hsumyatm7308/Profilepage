@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$uploadfile = $_SESSION['uploaded_file']; 
+$uploadfile = $_SESSION['uploaded_file']; // Retrieve the uploaded file path from the session variable
 
 ?>
 
