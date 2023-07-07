@@ -12,50 +12,47 @@ try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo "successful";
+    echo "successful";
 
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
 }
 
-if (!isset($_SESSION['uploaded_file'])) {
-    $_SESSION['uploaded_file'] = '';
+if (!isset($_SESSION['uploaded_file'])  ) {
+    $_SESSION['uploaded_file'] = ''; 
 
 }
 
-if (!isset($_SESSION['uploaded_fname'])) {
+if(!isset($_SESSION['uploaded_fname'])){
     $_SESSION['uploaded_fname'] = '';
 
 }
 
-if (!isset($_SESSION['uploaded_lname'])) {
+if(!isset($_SESSION['uploaded_lname'])){
     $_SESSION['uploaded_lname'] = '';
 
 }
 
-if (!isset($_SESSION['uploaded_username'])) {
+if(!isset($_SESSION['uploaded_username'])){
     $_SESSION['uploaded_username'] = '';
 
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $getuserfname = $_POST['userprofilefirstname'];
-    $getuserlname = $_POST['userprofilelastname'];
-    $getuserusername = $_POST['userprofileusername'];
-
-
-
-
-
-
     try {
-        $selectstmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
-        $updatestmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
+        $stmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
+        $stmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
 
-        $selectstmt->execute();
-        $row = $selectstmt->fetch();
-        // echo "<pre>" . print_r($row, true) . "</pre>";
+        $stmt->bindParam(':newfirstname',$newfirstname);
+        $stmt->bindParam(':newlastname',$newlastname);
+        $stmt->bindParam(':newusername',$newusername);
+        $stmt->bindParam(":userid",$newuserid);
+
+        $stmt->execute();
+
+        $row = $stmt->fetch();
+
+        echo $row['firstname'];
 
         if (isset($_POST['submit'])) {
             $uploaddir = 'assets/img/profile/';
@@ -65,61 +62,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
                 $_SESSION['uploaded_file'] = $uploadfile;
+               
             }
-
-            $newfirstname = $getuserfname;
-            $newlastname = $getuserlname;
-            $newusername = $getuserusername;
-            $userid = 1;
-
-
-            if (!empty($newfirstname)) {
-                $row['firstname'] = $newfirstname;
-                $updatestmt->bindParam(':newfirstname', $newfirstname);
-            } else {
-                $updatestmt->bindValue(':newfirstname', $row['firstname']);
-            }
-
-
-            if (!empty($newlastname)) {
-                $row['lastname'] = $newlastname;
-                $updatestmt->bindParam(':newlastname', $newlastname);
-            } else {
-                $updatestmt->bindValue(':newlastname', $row['lastname']);
-            }
-
-
-            if (!empty($newusername)) {
-                $row['username'] = $newusername;
-                $updatestmt->bindParam(':newusername', $newusername);
-            } else {
-                $updatestmt->bindValue(':newusername', $row['username']);
-            }
-
-
-            $updatestmt->bindParam(":userid", $userid);
-
-
-            $updatestmt->execute();
-
 
             $_SESSION['uploaded_fname'] = $row['firstname'];
             $_SESSION['uploaded_lname'] = $row['lastname'];
             $_SESSION['uploaded_username'] = $row['username'];
         }
+
     } catch (Exception $e) {
-        echo "Error Found: " . $e->getMessage();
+        echo "Error Found : " . $e->getMessage();
     }
 
 
 
-
-
+   
 }
 
-$uploadfile = $_SESSION['uploaded_file'];
-$row['firstname'] = $_SESSION['uploaded_fname'];
-$row['lastname'] = $_SESSION['uploaded_lname'];
+$uploadfile = $_SESSION['uploaded_file']; 
+$row['firstname'] = $_SESSION['uploaded_fname']  ;
+$row['lastname'] = $_SESSION['uploaded_lname'] ;
 $row['username'] = $_SESSION['uploaded_username'];
 
 ?>
@@ -137,21 +99,21 @@ $row['username'] = $_SESSION['uploaded_username'];
     <header>
 
         <nav>
+          
+                <div>
+                    <a href="" class="logo-brand">
+                        <img src="./assets/img/mylogo.jpg" alt="" width="50px" style="border-radius: 50%;">
+                        <span>Jame Vectory</span>
+                    </a>
+                </div>
 
-            <div>
-                <a href="" class="logo-brand">
-                    <img src="./assets/img/mylogo.jpg" alt="" width="50px" style="border-radius: 50%;">
-                    <span>Jame Vectory</span>
-                </a>
-            </div>
-
-            <div>
-                <a href="" class="profile-account">
-                    <span>My account</span>
-                    <img src="<?php echo $uploadfile ?>" alt="" width="30px" style="border-radius: 50%;">
-                </a>
-            </div>
-
+                <div>
+                    <a href="" class="profile-account">
+                        <span>My account</span>
+                        <img src="<?php echo $uploadfile ?>" alt="" width="30px" style="border-radius: 50%;">
+                    </a>
+                </div>
+            
 
         </nav>
 
@@ -173,14 +135,8 @@ $row['username'] = $_SESSION['uploaded_username'];
 
 
                         <div class="profile-display-name">
-                            <h3 class="dispalyname"><span>
-                                    <?= $row['firstname'] ?>
-                                </span> <span>
-                                    <?= $row['lastname'] ?>
-                                </span></h3>
-                            <p>
-                                <?= $row['username'] ?>
-                            </p>
+                            <h3 class="dispalyname"><span><?= $row['firstname'] ?></span> <span> <?= $row['lastname'] ?></span></h3>
+                            <p><?= $row['username'] ?></p>
                         </div>
 
                         <div class="profile-display-bio">

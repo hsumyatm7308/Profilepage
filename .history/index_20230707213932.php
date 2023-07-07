@@ -12,7 +12,7 @@ try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo "successful";
+    echo "successful";
 
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
@@ -50,12 +50,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     try {
-        $selectstmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
-        $updatestmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
+        $stmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
+        $stmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
 
-        $selectstmt->execute();
-        $row = $selectstmt->fetch();
-        // echo "<pre>" . print_r($row, true) . "</pre>";
+        $stmt->bindParam(':newfirstname', $newfirstname);
+        $stmt->bindParam(':newlastname', $newlastname);
+        $stmt->bindParam(':newusername', $newusername);
+        $stmt->bindParam(":userid", $userid);
+
+
+        $newfirstname = $getuserfname;
+        $newlastname = $getuserfname;
+        $newfirstname = $getuserfname;
+        $userid = 1;
+
+
+        $stmt->execute();
+
+
+
+
+        $row = $stmt->fetch();
+
+        echo $row['firstname'];
 
         if (isset($_POST['submit'])) {
             $uploaddir = 'assets/img/profile/';
@@ -65,52 +82,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
                 $_SESSION['uploaded_file'] = $uploadfile;
+
             }
 
-            $newfirstname = $getuserfname;
-            $newlastname = $getuserlname;
-            $newusername = $getuserusername;
-            $userid = 1;
+     
 
 
-            if (!empty($newfirstname)) {
-                $row['firstname'] = $newfirstname;
-                $updatestmt->bindParam(':newfirstname', $newfirstname);
-            } else {
-                $updatestmt->bindValue(':newfirstname', $row['firstname']);
-            }
 
+            $stmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
 
-            if (!empty($newlastname)) {
-                $row['lastname'] = $newlastname;
-                $updatestmt->bindParam(':newlastname', $newlastname);
-            } else {
-                $updatestmt->bindValue(':newlastname', $row['lastname']);
-            }
+            $stmt->bindParam(':newfirstname', $newfirstname);
+            $stmt->bindParam(':newlastname', $newlastname);
+            $stmt->bindParam(':newusername', $newusername);
+            $stmt->bindParam(":userid", $userid);
 
+          
+           
 
-            if (!empty($newusername)) {
-                $row['username'] = $newusername;
-                $updatestmt->bindParam(':newusername', $newusername);
-            } else {
-                $updatestmt->bindValue(':newusername', $row['username']);
-            }
+            $stmt->execute();
+            // $_SESSION['uploaded_fname'] = $row['firstname'];
+            // $_SESSION['uploaded_lname'] = $row['lastname'];
+            // $_SESSION['uploaded_username'] = $row['username'];
 
-
-            $updatestmt->bindParam(":userid", $userid);
-
-
-            $updatestmt->execute();
-
-
-            $_SESSION['uploaded_fname'] = $row['firstname'];
-            $_SESSION['uploaded_lname'] = $row['lastname'];
-            $_SESSION['uploaded_username'] = $row['username'];
         }
-    } catch (Exception $e) {
-        echo "Error Found: " . $e->getMessage();
-    }
 
+    } catch (Exception $e) {
+        echo "Error Found : " . $e->getMessage();
+    }
 
 
 
@@ -118,9 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $uploadfile = $_SESSION['uploaded_file'];
-$row['firstname'] = $_SESSION['uploaded_fname'];
-$row['lastname'] = $_SESSION['uploaded_lname'];
-$row['username'] = $_SESSION['uploaded_username'];
+// $row['firstname'] = $_SESSION['uploaded_fname'];
+// $row['lastname'] = $_SESSION['uploaded_lname'];
+// $row['username'] = $_SESSION['uploaded_username'];
 
 ?>
 

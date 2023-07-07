@@ -12,7 +12,7 @@ try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo "successful";
+    echo "successful";
 
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $selectstmt->execute();
         $row = $selectstmt->fetch();
-        // echo "<pre>" . print_r($row, true) . "</pre>";
+        echo "<pre>" . print_r($row, true) . "</pre>";
 
         if (isset($_POST['submit'])) {
             $uploaddir = 'assets/img/profile/';

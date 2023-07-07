@@ -12,7 +12,7 @@ try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo "successful";
+    echo "successful";
 
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
@@ -53,9 +53,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $selectstmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
         $updatestmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
 
+
+
         $selectstmt->execute();
+
+
+
+
+
         $row = $selectstmt->fetch();
-        // echo "<pre>" . print_r($row, true) . "</pre>";
+
+
+        echo "<pre>" . print_r($row, true) . "</pre>";
+
+
+
+
 
         if (isset($_POST['submit'])) {
             $uploaddir = 'assets/img/profile/';
@@ -65,52 +78,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
                 $_SESSION['uploaded_file'] = $uploadfile;
+
             }
+
+
+
+
 
             $newfirstname = $getuserfname;
             $newlastname = $getuserlname;
             $newusername = $getuserusername;
             $userid = 1;
 
-
-            if (!empty($newfirstname)) {
-                $row['firstname'] = $newfirstname;
-                $updatestmt->bindParam(':newfirstname', $newfirstname);
-            } else {
-                $updatestmt->bindValue(':newfirstname', $row['firstname']);
-            }
-
-
-            if (!empty($newlastname)) {
-                $row['lastname'] = $newlastname;
-                $updatestmt->bindParam(':newlastname', $newlastname);
-            } else {
-                $updatestmt->bindValue(':newlastname', $row['lastname']);
-            }
-
-
-            if (!empty($newusername)) {
-                $row['username'] = $newusername;
-                $updatestmt->bindParam(':newusername', $newusername);
-            } else {
-                $updatestmt->bindValue(':newusername', $row['username']);
-            }
-
-
+            // Modify the update statement and bind parameters accordingly
+            $updatestmt->bindParam(':newfirstname', $newfirstname);
+            $updatestmt->bindParam(':newlastname', $newlastname);
+            $updatestmt->bindParam(':newusername', $newusername);
             $updatestmt->bindParam(":userid", $userid);
+
+
 
 
             $updatestmt->execute();
 
 
+
+
+            if (!empty($newfirstname)) {
+                $row['firstname'] = $newfirstname;
+                $updatestmt->bindParam(':newfirstname', $newfirstname);
+            }
+
+            if (!empty($newlastname)) {
+                $row['lastname'] = $newlastname;
+                $updatestmt->bindParam(':newlastname', $newlastname);
+            }
+
+            if (!empty($newusername)) {
+                $row['username'] = $newusername;
+                $updatestmt->bindParam(':newusername', $newusername);
+            }
+
+
+
+
+
             $_SESSION['uploaded_fname'] = $row['firstname'];
             $_SESSION['uploaded_lname'] = $row['lastname'];
             $_SESSION['uploaded_username'] = $row['username'];
-        }
-    } catch (Exception $e) {
-        echo "Error Found: " . $e->getMessage();
-    }
 
+
+
+
+
+        }
+
+    } catch (Exception $e) {
+        echo "Error Found : " . $e->getMessage();
+    }
 
 
 

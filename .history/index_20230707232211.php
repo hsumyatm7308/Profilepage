@@ -12,7 +12,7 @@ try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo "successful";
+    echo "successful";
 
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();

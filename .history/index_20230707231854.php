@@ -12,7 +12,7 @@ try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbusername, $dbpass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo "successful";
+    echo "successful";
 
 } catch (Exception $e) {
     echo "Error found : " . $e->getMessage();
@@ -52,57 +52,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $selectstmt = $conn->prepare("SELECT firstname, lastname, username, bio FROM jamevectory");
         $updatestmt = $conn->prepare("UPDATE jamevectory SET firstname = :newfirstname, lastname = :newlastname, username = :newusername WHERE id = :userid");
-
+    
         $selectstmt->execute();
         $row = $selectstmt->fetch();
-        // echo "<pre>" . print_r($row, true) . "</pre>";
-
+        echo "<pre>" . print_r($row, true) . "</pre>";
+    
         if (isset($_POST['submit'])) {
             $uploaddir = 'assets/img/profile/';
             $extension = pathinfo($_FILES['profile']['name'], PATHINFO_EXTENSION);
             $filename = uniqid() . '.' . $extension;
             $uploadfile = $uploaddir . $filename;
-
+    
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploadfile)) {
                 $_SESSION['uploaded_file'] = $uploadfile;
             }
-
+    
             $newfirstname = $getuserfname;
             $newlastname = $getuserlname;
             $newusername = $getuserusername;
             $userid = 1;
-
-
+    
+            // Check if $newfirstname is not empty before updating
             if (!empty($newfirstname)) {
                 $row['firstname'] = $newfirstname;
                 $updatestmt->bindParam(':newfirstname', $newfirstname);
             } else {
-                $updatestmt->bindValue(':newfirstname', $row['firstname']);
+                $updatestmt->bindValue(':newfirstname', $row['firstname']); // Use existing value
             }
-
-
+    
+            // Check if $newlastname is not empty before updating
             if (!empty($newlastname)) {
                 $row['lastname'] = $newlastname;
                 $updatestmt->bindParam(':newlastname', $newlastname);
             } else {
-                $updatestmt->bindValue(':newlastname', $row['lastname']);
+                $updatestmt->bindValue(':newlastname', $row['lastname']); // Use existing value
             }
-
-
+    
+            // Check if $newusername is not empty before updating
             if (!empty($newusername)) {
                 $row['username'] = $newusername;
                 $updatestmt->bindParam(':newusername', $newusername);
             } else {
-                $updatestmt->bindValue(':newusername', $row['username']);
+                $updatestmt->bindValue(':newusername', $row['username']); // Use existing value
             }
-
-
+    
+            // Bind the userid parameter
             $updatestmt->bindParam(":userid", $userid);
-
-
+    
+            // Execute the update statement
             $updatestmt->execute();
-
-
+    
+            // Update the session variables with the updated values
             $_SESSION['uploaded_fname'] = $row['firstname'];
             $_SESSION['uploaded_lname'] = $row['lastname'];
             $_SESSION['uploaded_username'] = $row['username'];
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         echo "Error Found: " . $e->getMessage();
     }
-
+    
 
 
 
