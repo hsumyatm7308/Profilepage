@@ -1,3 +1,30 @@
+
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['submit'])) {
+        echo "<h1>Welcome </h1>";
+
+
+        $filename = $_FILES['profile']['name'];
+        echo "<pre>".print_r($filename,true) ."</pre>";
+
+
+
+
+
+
+
+    }
+
+
+
+}
+
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -32,7 +59,7 @@
             <div class="user-profile">
                 <div class="profile-display">
                     <div class="profile-display-img">
-                        <img src="./assets/img/profile/hmm.jpg" alt="" width="200px" style="border-radius: 50%;">
+                        <!-- <img src="./assets/img/profile/hmm.jpg" alt="" width="200px" style="border-radius: 50%;"> -->
                     </div>
 
 
@@ -52,7 +79,7 @@
 
             <div class="user-edit-content">
                 <div class="edit-form">
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="post" enctype="multipart/form-data">
                         <div class="user-form-name">
                             <div>
                                 <label for="">First name</label>
@@ -97,11 +124,12 @@
                         <div class="user-selection">
                             <div class="user-img">
                                 <div class="img-item">
-                                    <img src="./assets/img/profile/hmm.jpg" alt="" width="150px">
+                                    <img src="./assets/img/profile/anpuppy.jpg" alt="" width="150px">
+                                    <!-- <input type="file" name="profile[]"> -->
 
                                 </div>
                                 <div class="editbtn">
-                                    <button>Edit</button>
+                                    <input type="file" name="profile[]">
                                 </div>
                             </div>
 
@@ -161,7 +189,7 @@
                             <div>
                                 
                             </div>
-                            <button type="submit">
+                            <button type="submit" name="submit">
                                 Update
                             </button>
 
