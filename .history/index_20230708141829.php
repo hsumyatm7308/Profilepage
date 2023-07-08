@@ -38,19 +38,6 @@ if (!isset($_SESSION['uploaded_username'])) {
 
 }
 
-if(!isset($_SESSION['uploaded_bio'])){
-    $_SESSION['uploaded_bio'] = "Hello I'm a programmer. If you need me, I'm always ready.";
-}
-
-if(!isset($_SESSION['uploaded_password'])){
-    $_SESSION['uploaded_password'] = "";
-}
-
-
-if(!isset($_SESSION['uploaded_email'])){
-    $_SESSION['uploaded_email'] = "";
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $getuserfname = textfilter($_POST['userprofilefirstname']);
@@ -153,10 +140,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         if (!empty($newbio)) {
-            $row['bio'] = $newbio;
-            $updatestmt->bindParam(':newbio', $newbio);
+            $row['username'] = $newbio;
+            $updatestmt->bindParam(':newusername', $newbio);
         } else {
-            $updatestmt->bindValue(':newbio', $row['bio']);
+            $updatestmt->bindValue(':newusername', $row['username']);
         }
         
 
@@ -169,10 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['uploaded_fname'] = $row['firstname'];
         $_SESSION['uploaded_lname'] = $row['lastname'];
         $_SESSION['uploaded_username'] = $row['username'];
-        $_SESSION['uploaded_bio'] = $row['bio'];
-        $_SESSION['uploaded_password'] = $row['password'];
-        $_SESSION['uploaded_email'] = $row['email'];
-
         }
     } catch (Exception $e) {
         echo "Error Found: " . $e->getMessage();
@@ -188,9 +171,6 @@ $uploadfile = $_SESSION['uploaded_file'];
 $row['firstname'] = $_SESSION['uploaded_fname'];
 $row['lastname'] = $_SESSION['uploaded_lname'];
 $row['username'] = $_SESSION['uploaded_username'];
-$row['bio'] = $_SESSION['uploaded_bio'];
-$row['password'] = $_SESSION['uploaded_password'];
-$row['email'] = $_SESSION['uploaded_email'];
 
 
 
@@ -264,7 +244,7 @@ function textfilter($data){
                         </div>
 
                         <div class="profile-display-bio">
-                            <textarea name="displaybio" rows="5" maxlength="150" readonly><?= $row['bio'] ?>
+                            <textarea name="displaybio" rows="5" maxlength="150">Hello I'm a programmer. If you need me, I'm always ready.
                         </textarea>
                         </div>
                     </form>

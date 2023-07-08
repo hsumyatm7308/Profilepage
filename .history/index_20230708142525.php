@@ -171,7 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['uploaded_username'] = $row['username'];
         $_SESSION['uploaded_bio'] = $row['bio'];
         $_SESSION['uploaded_password'] = $row['password'];
-        $_SESSION['uploaded_email'] = $row['email'];
 
         }
     } catch (Exception $e) {
@@ -190,7 +189,6 @@ $row['lastname'] = $_SESSION['uploaded_lname'];
 $row['username'] = $_SESSION['uploaded_username'];
 $row['bio'] = $_SESSION['uploaded_bio'];
 $row['password'] = $_SESSION['uploaded_password'];
-$row['email'] = $_SESSION['uploaded_email'];
 
 
 
@@ -264,7 +262,7 @@ function textfilter($data){
                         </div>
 
                         <div class="profile-display-bio">
-                            <textarea name="displaybio" rows="5" maxlength="150" readonly><?= $row['bio'] ?>
+                            <textarea name="displaybio" rows="5" maxlength="150"> <?= $row['bio'] ?>
                         </textarea>
                         </div>
                     </form>

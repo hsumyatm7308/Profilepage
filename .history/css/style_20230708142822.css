@@ -118,13 +118,6 @@ nav {
 .profile-display-bio textarea{
     width: 98%;
     border: none;
-    margin-right: 10px;
-    resize: none;
-
-}
-
-.profile-display-bio textarea:focus{
-    border: none;
 }
 
 

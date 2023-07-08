@@ -264,7 +264,7 @@ function textfilter($data){
                         </div>
 
                         <div class="profile-display-bio">
-                            <textarea name="displaybio" rows="5" maxlength="150" readonly><?= $row['bio'] ?>
+                            <textarea name="displaybio" rows="5" maxlength="150" readonly> <?= $row['bio'] ?>
                         </textarea>
                         </div>
                     </form>

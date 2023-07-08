@@ -123,10 +123,6 @@ nav {
 
 }
 
-.profile-display-bio textarea:focus{
-    border: none;
-}
-
 
 .edit-form{
     width: 70%;
